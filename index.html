@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zalex</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
 <style>
 * {
     margin: 0;
@@ -76,15 +77,16 @@ nav a:hover {
 /* Pages */
 .page {
     display: none;
+    padding-bottom: 60px;
+}
+
+.page.active {
+    display: block;
     animation: fadeIn 0.4s ease;
 }
 
-.active {
-    display: block;
-}
-
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(15px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
@@ -185,6 +187,7 @@ footer {
 }
 </style>
 </head>
+
 <body>
 
 <div id="intro">
@@ -194,20 +197,18 @@ footer {
 <header>
     <h2>Zalex</h2>
     <nav>
-        <a onclick="showPage('home')">Home</a>
-        <a onclick="showPage('features')">Features</a>
-        <a onclick="showPage('faq')">FAQ</a>
-        <a onclick="showPage('download')">Download</a>
+        <a href="#" data-page="home">Home</a>
+        <a href="#" data-page="features">Features</a>
+        <a href="#" data-page="faq">FAQ</a>
+        <a href="/download">Download</a>
     </nav>
 </header>
 
 <!-- HOME -->
-<section id="home" class="page active">
-    <div class="hero">
-        <h1>Modern. Fast. Reliable.</h1>
-        <p>Experience next-generation performance with a sleek dark interface.</p>
-        <button class="btn" onclick="showPage('download')">Download Now</button>
-    </div>
+<section id="home" class="page active hero">
+    <h1>Modern. Fast. Reliable.</h1>
+    <p>Experience next-generation performance with a sleek dark interface.</p>
+    <a href="/download" class="btn">Download Now</a>
 </section>
 
 <!-- FEATURES -->
@@ -248,25 +249,27 @@ footer {
     </div>
 </section>
 
-<!-- DOWNLOAD -->
-<section id="download" class="page hero">
-    <h1>Download Zalex</h1>
-    <p style="color:#aaa;margin-bottom:35px;">Click below to start your download.</p>
-    <a href="/download" class="btn">Start Download</a>
-</section>
-
 <footer>
     © 2026 Zalex. All rights reserved.
 </footer>
 
 <script>
-function showPage(id) {
-    document.querySelectorAll('.page').forEach(page => {
-        page.classList.remove('active');
+const navLinks = document.querySelectorAll('nav a[data-page]');
+const pages = document.querySelectorAll('.page');
+
+navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = this.getAttribute('data-page');
+
+        pages.forEach(page => {
+            page.classList.remove('active');
+        });
+
+        document.getElementById(target).classList.add('active');
+        window.scrollTo(0, 0);
     });
-    document.getElementById(id).classList.add('active');
-    window.scrollTo(0,0);
-}
+});
 
 document.querySelectorAll('.faq-item').forEach(item => {
     item.addEventListener('click', () => {
